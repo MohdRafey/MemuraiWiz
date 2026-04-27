@@ -1,0 +1,99 @@
+﻿<Window x:Class="MemuraiWiz.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="clr-namespace:MemuraiWiz.ViewModel"
+        Title="Memurai Service Wizard" Height="500" Width="450"
+        Background="#F5F5F5" WindowStartupLocation="CenterScreen">
+
+  <Window.DataContext>
+    <vm:MainViewModel/>
+  </Window.DataContext>
+
+  <Grid Margin="12">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="*"/>
+      <RowDefinition Height="Auto"/>
+    </Grid.RowDefinitions>
+
+    <GroupBox Header="Target Environment" Margin="0,0,0,10">
+      <StackPanel Margin="5">
+        <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+          </Grid.ColumnDefinitions>
+
+          <TextBox Text="{Binding Settings.InstallPath, UpdateSourceTrigger=PropertyChanged}" 
+                             VerticalContentAlignment="Center" Padding="4" Background="#F0F0F0" IsReadOnly="True"/>
+
+          <Button Grid.Column="1" Command="{Binding VerifyCommand}" 
+                            Content="Verify" Width="60" Margin="5,0" Padding="2"/>
+
+          <Button Grid.Column="2" Command="{Binding BrowseCommand}" 
+                            Content="..." Width="30" Padding="2"/>
+        </Grid>
+
+        <TextBlock Text="{Binding StatusMessage}" 
+                           Foreground="{Binding StatusColor}" 
+                           FontSize="11" Margin="2,5,0,0" FontWeight="SemiBold"/>
+      </StackPanel>
+    </GroupBox>
+
+    <GroupBox Grid.Row="1" Header="Service Parameters">
+      <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="5">
+          <ItemsControl ItemsSource="{Binding BasicParameters}">
+            <ItemsControl.ItemTemplate>
+              <DataTemplate>
+                <Grid Margin="0,5">
+                  <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="30"/>
+                  </Grid.ColumnDefinitions>
+
+                  <TextBlock Text="{Binding Key, StringFormat='{}{0}:'}" VerticalAlignment="Center" FontWeight="Medium"/>
+                  <TextBox Grid.Column="1" Text="{Binding Value, UpdateSourceTrigger=PropertyChanged}" Padding="2"/>
+
+                  <ToggleButton x:Name="InfoButton" Grid.Column="2" Content="?" 
+                      Width="22" Height="22" Margin="5,0,0,0"
+                      Style="{StaticResource {x:Static ToolBar.ToggleButtonStyleKey}}"/>
+
+                  <Popup IsOpen="{Binding IsChecked, ElementName=InfoButton}" 
+               PlacementTarget="{Binding ElementName=InfoButton}"
+               Placement="Right" StaysOpen="False" PopupAnimation="Fade"  AllowsTransparency="True">
+                    <Border Background="#333333" CornerRadius="4" Padding="10" MaxWidth="300" Margin="15">
+                      <Border.Effect>
+                        <DropShadowEffect BlurRadius="10" Opacity="0.3"/>
+                      </Border.Effect>
+                      <TextBlock Text="{Binding Description}" 
+                           Foreground="White" 
+                           TextWrapping="Wrap" 
+                           FontSize="11" 
+                           LineHeight="16"/>
+                    </Border>
+                  </Popup>
+                </Grid>
+              </DataTemplate>
+            </ItemsControl.ItemTemplate>
+          </ItemsControl>
+
+          <Button Content="Advanced Configuration..." 
+                            Command="{Binding OpenAdvancedCommand}" 
+                            HorizontalAlignment="Left" Margin="0,10,0,0" 
+                            Padding="10,2" Height="24"/>
+        </StackPanel>
+      </ScrollViewer>
+    </GroupBox>
+
+    <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,15,0,0">
+      <Button Content="Export Config..." Command="{Binding ExportCommand}" Width="110" Height="28" Margin="0,0,10,0"/>
+      <Button Content="Initialize Service" 
+                    Command="{Binding InstallCommand}" 
+                    IsEnabled="{Binding IsPathValid}"
+                    Width="110" Height="28" FontWeight="Bold"/>
+    </StackPanel>
+  </Grid>
+</Window>

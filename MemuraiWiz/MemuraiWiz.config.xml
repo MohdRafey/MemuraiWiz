@@ -1,0 +1,14 @@
+﻿<Settings>
+  <InstallPath>C:\Program Files\Memurai\</InstallPath>
+  <ActiveConfigName>memurai.conf</ActiveConfigName>
+  <LastVerified>2026-04-27</LastVerified>
+  
+  <MainParameters>
+    <Key>port</Key>
+    <Key>bind</Key>
+    <Key>requirepass</Key>
+    <Key>maxmemory</Key>
+    <Key>logfile</Key>
+    <Key>appendonly</Key>
+  </MainParameters>
+</Settings>
