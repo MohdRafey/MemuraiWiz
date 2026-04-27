@@ -1,0 +1,31 @@
+# --- Visual Studio & .NET ---
+.vs/
+[Bb]in/
+[Oo]bj/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.patch
+*.nupkg
+
+# --- Memurai / Redis Specific ---
+# Exclude local service logs and temp config backups
+*.log
+*.conf.bak
+*.conf.tmp
+dump.rdb
+appendonly.aof
+
+# --- Build Output & Packages ---
+*.exe
+*.dll
+*.pdb
+*.msi
+packages/
+_ReSharper*/
+
+# --- OS & Misc ---
+Thumbs.db
+desktop.ini
+.DS_Store
